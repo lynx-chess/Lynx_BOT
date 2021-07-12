@@ -1,0 +1,61 @@
+name: Provisioning
+on:
+  push:
+    branches:
+      - main
+      - setup-terraform-gh-actions
+  workflow_dispatch:
+    inputs:
+      terraform_command:
+        description: 'plan|apply|destroy'
+        default: 'plan'
+        required: true
+      dry-run:
+        description: 'Only shows the output of terraform plan or play -destroy'
+        default: 'false'
+        required: true
+
+jobs:
+  build-with-terraform:
+    name: Build With Terraform
+    runs-on: ubuntu-latest
+    env:
+      TF_VAR_tenancy_ocid: ${{secrets.OCI_TENANCY_OCID}}
+      TF_VAR_compartment_ocid: ${{secrets.OCI_COMPARTMENT_OCID}}
+      TF_VAR_user_ocid: ${{secrets.OCI_USER_OCID}}
+      TF_VAR_private_key: ${{secrets.OCI_PRIVATE_KEY}}
+      TF_VAR_private_key_password: ${{secrets.OCI_PRIVATE_KEY_PASSWORD}}
+      TF_VAR_fingerprint: ${{secrets.OCI_FINGERPRINT}}
+      TF_VAR_region: ${{secrets.OCI_REGION}}
+      TF_VAR_subnet_id: ${{secrets.OCI_SUBNET_ID}}
+      TF_VAR_ssh_public_key: ${{secrets.SSH_PUBLIC_KEY}}
+      TF_VAR_availability_domain: ${{secrets.OCI_AVAILABILITY_DOMAIN}}
+
+    defaults:
+      run:
+        working-directory: provisioning/
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: hashicorp/setup-terraform@v1
+
+      - name: 'Init Terraform'
+        run: terraform init -backend-config="address=${{secrets.OCI_TERRAFORM_STATE_PAR}}"
+
+      - name: 'Validate Terraform'
+        run: terraform validate
+
+      - name: 'Terraform plan'
+        run: terraform plan
+
+      - name: 'Terraform apply'
+        if: github.event.inputs.should_tag_new_version == 'apply' && github.event.inputs.dry-run == 'false'
+        run: terraform apply -auto-approve
+
+      - name: 'Terraform plan -destroy'
+        if: github.event.inputs.should_tag_new_version == 'destroy'
+        run: terraform plan -destroy
+
+      - name: 'Terraform destroy'
+        if: github.event.inputs.should_tag_new_version == 'destroy' && github.event.inputs.dry-run == 'false'
+        run: terraform destroy -auto-approve

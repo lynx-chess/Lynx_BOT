@@ -1,0 +1,17 @@
+name: Create release bundle
+on:
+  registry_package:
+    types: [published]
+
+jobs:
+  create-release-bundle:
+    name: Create release bundle
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: 'Just testing'
+        run: |
+          echo "Image Name: ${{github.event.registry_package.package.name}}"
+          echo "Image Tag: ${{github.event.registry_package.package.tag}}"
