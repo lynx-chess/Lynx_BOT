@@ -1,31 +1,43 @@
-name: Create release bundle
+name: Create release
 on:
   registry_package:
-    types: [published, updated]
+    types: [published]
 
 jobs:
+  name: Create release
   create-release-bundle:
+    if: ${{ github.event.registry_package.name }} == 'lynx-bot' && github.event.registry_package.package_version.container_metadata.manifest.media_type == 'application/vnd.docker.distribution.manifest.list.v2+json'
+
     name: Create release bundle
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v2
 
-      - name: 'Just testing'
-        run: |
-          echo "Image Name: ${{ github.event.registry_package.package.name }}"
-          echo "Image Tag: ${{ github.event.registry_package.package.tag }}"
-          echo "Image Name II: ${{ github.event.package.name }}"
-          echo "Image Tag II: ${{ github.event.package.tag }}"
-          echo "GitHub ref: ${{ github.ref }}"
-          echo "GitHub sha: ${{ github.sha }}"
-          echo "Action: ${{ github.action }}"
-          echo "Package.name: ${{ github.package.name }}"
-          echo "Package.namespace: ${{ github.package.namespace }}"
-          echo "Package.package_version.version: ${{ github.package_version.version }}"
-          echo "Package.package_version.name: ${{ github.package_version.name }}"
-          echo "Package.package_version.tag_name: ${{ github.package_version.tag_name }}"
-          echo "Package.repository.full_name: ${{ github.repository.full_name }}"
+    - name: Upload Lynx_BOT v${{ github.event.registry_package.package_version.container_metadata.tag.name }} artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: Lynx_BOT-${{ github.event.registry_package.package_version.container_metadata.tag.name }}
+        path: |
+          docker-compose.yml
+          lynx_bot-config.yml
+        if-no-files-found: error
 
-      - name: 'PrintEnv'
-        run: printenv
+    - name: Download artifact
+      uses: actions/download-artifact@v2
+      if: github.event.inputs.should_create_github_release == 'true' && github.event.inputs.should_tag_new_version == 'true'
+      with:
+        name: Lynx_BOT-${{ github.event.registry_package.package_version.container_metadata.tag.name }}
+        path: artifacts/
+
+    - name: Create GitHub release and upload assets
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        set -x
+        assets=()
+        for asset in artifacts/*; do
+          assets+=("-a" "$asset")
+        done
+        tag_name="v${{ github.event.registry_package.package_version.container_metadata.tag.name }}"
+        hub release create "${assets[@]}" --draft --message "$tag_name" "$tag_name"

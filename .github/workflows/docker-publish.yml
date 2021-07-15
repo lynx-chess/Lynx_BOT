@@ -2,6 +2,7 @@ name: Docker publish
 on:
   repository_dispatch:
     types: [lynx-release]
+
   workflow_dispatch:
     inputs:
       tag:
@@ -14,6 +15,7 @@ env:
   AMD_RID: linux-x64
 
 jobs:
+  name: Download Lynx artifacts
   download-lynx-artifact:
     runs-on: ubuntu-latest
 
@@ -69,6 +71,7 @@ jobs:
           artifacts/lynx-${{ env.AMD_RID }}/
 
   publish-docker-images:
+    name: Publish Docker images
     needs: download-lynx-artifact
 
     runs-on: ubuntu-latest
@@ -78,7 +81,6 @@ jobs:
       fail-fast: false
 
     steps:
-
     - uses: actions/checkout@v2
 
     - uses: actions/download-artifact@v2
@@ -124,6 +126,7 @@ jobs:
       run: echo ${{ steps.docker_build.outputs.digest }}
 
   cleanup:
+    name: Cleanup
     needs: [download-lynx-artifact, publish-docker-images]
     if: always()
 

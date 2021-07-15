@@ -3,11 +3,11 @@ on:
   workflow_dispatch:
     inputs:
       terraform_command:
-        description: 'plan||plan-destroy|apply|destroy'
+        description: 'plan|plan-destroy|apply|destroy'
         default: 'plan'
         required: true
       dry_run:
-        description: 'Only shows the output of terraform plan or play -destroy'
+        description: 'dry-run - Only shows the output of terraform plan or play -destroy'
         default: ''
 
 jobs:
