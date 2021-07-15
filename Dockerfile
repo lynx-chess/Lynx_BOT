@@ -1,10 +1,20 @@
+ARG ARM_ARTIFACT_PATH
+ARG AMD_ARTIFACT_PATH
+
+FROM mcr.microsoft.com/dotnet/sdk:6.0 as lynxbuilder-arm64
+ARG ARM_ARTIFACT_PATH
+ONBUILD RUN test -n "$ARM_ARTIFACT_PATH"
+ONBUILD COPY $ARM_ARTIFACT_PATH /lynx
+
+FROM mcr.microsoft.com/dotnet/sdk:6.0 as lynxbuilder-amd64
+ARG AMD_ARTIFACT_PATH
+ONBUILD RUN test -n "$AMD_ARTIFACT_PATH"
+ONBUILD COPY $AMD_ARTIFACT_PATH /lynx
+
 ############################################################
 # Build Lynx
 ############################################################
-FROM mcr.microsoft.com/dotnet/sdk:6.0 as lynxbuilder
-# ARG ARTIFACT_PATH
-# RUN test -n "$ARTIFACT_PATH"
-COPY ./publish ./lynx
+FROM lynxbuilder-${TARGETARCH} as lynxbuilder
 WORKDIR /lynx
 RUN chmod +x Lynx.Cli &&\
     mv Lynx.Cli Lynx

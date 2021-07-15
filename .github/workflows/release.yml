@@ -1,7 +1,7 @@
 name: Create release bundle
 on:
   registry_package:
-    types: [published]
+    types: [published, updated]
 
 jobs:
   create-release-bundle:
@@ -13,5 +13,19 @@ jobs:
 
       - name: 'Just testing'
         run: |
-          echo "Image Name: ${{github.event.registry_package.package.name}}"
-          echo "Image Tag: ${{github.event.registry_package.package.tag}}"
+          echo "Image Name: ${{ github.event.registry_package.package.name }}"
+          echo "Image Tag: ${{ github.event.registry_package.package.tag }}"
+          echo "Image Name II: ${{ github.event.package.name }}"
+          echo "Image Tag II: ${{ github.event.package.tag }}"
+          echo "GitHub ref: ${{ github.ref }}"
+          echo "GitHub sha: ${{ github.sha }}"
+          echo "Action: ${{ github.action }}"
+          echo "Package.name: ${{ github.package.name }}"
+          echo "Package.namespace: ${{ github.package.namespace }}"
+          echo "Package.package_version.version: ${{ github.package_version.version }}"
+          echo "Package.package_version.name: ${{ github.package_version.name }}"
+          echo "Package.package_version.tag_name: ${{ github.package_version.tag_name }}"
+          echo "Package.repository.full_name: ${{ github.repository.full_name }}"
+
+      - name: 'PrintEnv'
+        run: printenv

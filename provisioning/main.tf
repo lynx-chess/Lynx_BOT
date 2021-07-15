@@ -41,7 +41,7 @@ resource "oci_core_instance" "lynx-vm" {
 	}
 	is_pv_encryption_in_transit_enabled = "true"
 	metadata = {
-		"ssh_authorized_keys" = var.ssh_public_key,
+		"ssh_authorized_keys" = var.ssh_public_key
         "user_data" : base64encode(file("user-data.sh"))
 	}
 	shape = "VM.Standard.A1.Flex"
@@ -50,9 +50,11 @@ resource "oci_core_instance" "lynx-vm" {
 		ocpus = "4"
 	}
 	source_details {
-		source_id = "ocid1.image.oc1.uk-london-1.aaaaaaaa7x6sa2gu3i7cjpq3axnfrf7wansxbwk4bvznsqczkfuj6ve4es6a"  # Oracle-Linux-8.4-aarch64-2021.06.22-0
+		source_id = "ocid1.image.oc1.uk-london-1.aaaaaaaamnhklf4nuxzvi5pa5cvwopdeipqfmsqywoxmn7nuwayby3pxyz6a"  # Oracle-Linux-8.4-aarch64-2021.06.22-0
 		source_type = "image"
 	}
+	extended_metadata = {}
+	nsg_ids = []
 }
 
 output "instance_ip_addr" {

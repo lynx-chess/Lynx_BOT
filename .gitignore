@@ -34,5 +34,6 @@ override.tf.json
 # Docker
 .env
 publish/
-lichess-bot-logs/
+artifacts/
 lynx-logs/
+lichess-bot-logs/

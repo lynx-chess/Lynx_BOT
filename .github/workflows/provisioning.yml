@@ -1,19 +1,14 @@
 name: Provisioning
 on:
-  push:
-    branches:
-      - main
-      - setup-terraform-gh-actions
   workflow_dispatch:
     inputs:
       terraform_command:
-        description: 'plan|apply|destroy'
+        description: 'plan||plan-destroy|apply|destroy'
         default: 'plan'
         required: true
-      dry-run:
+      dry_run:
         description: 'Only shows the output of terraform plan or play -destroy'
-        default: 'false'
-        required: true
+        default: ''
 
 jobs:
   build-with-terraform:
@@ -46,16 +41,17 @@ jobs:
         run: terraform validate
 
       - name: 'Terraform plan'
+        if: github.event.inputs.terraform_command == 'plan' || (github.event.inputs.terraform_command == 'apply' && github.event.inputs.dry_run != '')
         run: terraform plan
 
       - name: 'Terraform apply'
-        if: github.event.inputs.should_tag_new_version == 'apply' && github.event.inputs.dry-run == 'false'
+        if: github.event.inputs.terraform_command == 'apply' && github.event.inputs.dry_run == ''
         run: terraform apply -auto-approve
 
       - name: 'Terraform plan -destroy'
-        if: github.event.inputs.should_tag_new_version == 'destroy'
+        if: github.event.inputs.terraform_command == 'plan-destroy' || (github.event.inputs.terraform_command == 'destroy' && github.event.inputs.dry_run != '')
         run: terraform plan -destroy
 
       - name: 'Terraform destroy'
-        if: github.event.inputs.should_tag_new_version == 'destroy' && github.event.inputs.dry-run == 'false'
+        if: github.event.inputs.terraform_command == 'destroy' && github.event.inputs.dry_run == ''
         run: terraform destroy -auto-approve

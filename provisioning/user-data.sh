@@ -23,5 +23,7 @@ logout
 git clone https://github.com/lynx-chess/Lynx_BOT
 cd Lynx_BOT
 
+echo LICHESS_API_TOKEN="<YOUR_API_TOKEN>" > .env
+
 # sudo docker buildx build --platform linux/arm64 --tag eduherminio/lynx-docker --no-cache .
 sudo docker compose up --build

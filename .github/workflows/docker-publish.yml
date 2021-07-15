@@ -1,4 +1,4 @@
-name: deploy
+name: Docker publish
 on:
   repository_dispatch:
     types: [lynx-release]
@@ -8,47 +8,132 @@ on:
         description: 'Lynx Release Tag'
         required: true
 env:
-  RELEASE_TAG: ${{ github.event.client_payload.tag }}
+  LYNX_RELEASE_TAG: ${{ github.event.client_payload.tag }}
+  REGISTRY: ghcr.io
+  ARM_RID: linux-arm64
+  AMD_RID: linux-x64
 
 jobs:
+  download-lynx-artifact:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Set LYNX_RELEASE_TAG env var in case of manual run
+      if: env.LYNX_RELEASE_TAG == ''
+      run: |
+        echo "LYNX_RELEASE_TAG=${{ github.event.inputs.tag }}" >> $GITHUB_ENV
+
+    - name: Set LYNX_RELEASE_VERSION env var
+      shell: pwsh
+      run: |
+        echo "LYNX_RELEASE_VERSION=$("${{ env.LYNX_RELEASE_TAG }}".Replace('v', ''))" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
+
+    - name: Download ${{ env.ARM_RID }} and  ${{ env.AMD_RID }} executables
+      shell: pwsh
+      run: |
+        function Download-Asset{
+          param(
+            [Parameter(Mandatory=$true)]
+            [string] $tag,
+            [Parameter(Mandatory=$true)]
+            [string] $version,
+            [Parameter(Mandatory=$true)]
+            [string] $rid
+          )
+          $release = Invoke-RestMethod -Uri https://api.github.com/repos/lynx-chess/Lynx/releases/tags/$tag -Headers @{'Accept' = 'application/vnd.github.v3+json'}
+          $url = $release.assets | Where { $_.name -eq "Lynx-$version-$rid.zip" }  | Select -ExpandProperty url
+          Invoke-RestMethod $url -Headers @{'Accept' = 'application/octet-stream'} -OutFile artifacts/lynx-$rid.zip
+          Expand-Archive artifacts/lynx-$rid.zip -DestinationPath artifacts/lynx-$rid/
+          rm artifacts/lynx-$rid.zip
+        }
+        If((test-path "artifacts/"))
+        {
+          Remove-Item "artifacts/" -Recurse
+        }
+        New-Item -ItemType Directory -Force -Path artifacts/
+        Download-Asset -tag "${{ env.LYNX_RELEASE_TAG }}" -version "${{ env.LYNX_RELEASE_VERSION }}" -rid "${{ env.ARM_RID }}"
+        Download-Asset -tag "${{ env.LYNX_RELEASE_TAG }}" -version "${{ env.LYNX_RELEASE_VERSION }}" -rid "${{ env.AMD_RID }}"
+
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: lynx-${{ env.ARM_RID }}
+        path: |
+          artifacts/lynx-${{ env.ARM_RID }}/
+
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: lynx-${{ env.AMD_RID }}
+        path: |
+          artifacts/lynx-${{ env.AMD_RID }}/
+
   publish-docker-images:
+    needs: download-lynx-artifact
+
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        docker-target: [lynx, lynx-bot]
+      fail-fast: false
+
+    steps:
+
+    - uses: actions/checkout@v2
+
+    - uses: actions/download-artifact@v2
+      with:
+        path: artifacts/
+
+    - name: Set LYNX_RELEASE_TAG env var in case of manual run
+      if: env.LYNX_RELEASE_TAG == ''
+      run: |
+        echo "LYNX_RELEASE_TAG=${{ github.event.inputs.tag }}" >> $GITHUB_ENV
+
+    - name: Set LYNX_RELEASE_VERSION env var
+      shell: pwsh
+      run: |
+        echo "LYNX_RELEASE_VERSION=$("${{ env.LYNX_RELEASE_TAG }}".Replace('v', ''))" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
+
+    - name: Docker login
+      run: echo "${{ secrets.DOCKER_REGISTRY_TOKEN }}" | docker login ${{ env.REGISTRY }} -u ${{ github.actor }} --password-stdin
+
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@v1
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v1
+
+    - name: Build and push
+      id: docker_build
+      uses: docker/build-push-action@v2
+      with:
+        context: .
+        target: ${{ matrix.docker-target }}
+        build-args: |
+          ARM_ARTIFACT_PATH=artifacts/lynx-${{ env.ARM_RID }}/
+          AMD_ARTIFACT_PATH=artifacts/lynx-${{ env.AMD_RID }}/
+        platforms: |
+          linux/amd64
+          linux/arm64
+        tags: |
+          ${{ env.REGISTRY }}/lynx-chess/${{ matrix.docker-target }}:${{ env.LYNX_RELEASE_VERSION }}
+          ${{ env.REGISTRY }}/lynx-chess/${{ matrix.docker-target }}:latest
+        push: true
+    - name: Image digest
+      run: echo ${{ steps.docker_build.outputs.digest }}
+
+  cleanup:
+    needs: [download-lynx-artifact, publish-docker-images]
+    if: always()
 
     runs-on: ubuntu-latest
 
     steps:
-
-    - name: Set release tag in case of manual run
-      if: env.RELEASE_TAG != ''
-      run: |
-        echo "LYNX_RELEASE_TAG=${{ github.event.inputs.new_engine_version }}" >> $GITHUB_ENV
-
-    - name: Inject slug/short variables
-      uses: rlespinasse/github-slug-action@v3.x
-
-    - name: TestDownload executable
-      uses: dsaltares/fetch-gh-release-asset@0.06
+    - name: Deleting ${{ matrix.artifact }}
+      uses: geekyeggo/delete-artifact@v1
       with:
-        repo: "eduherminio/FileParser"
-        version: "v2.1.1"
-        file: "FileParser.2.1.1.nupkg"
-        target: "artifacts/nuget.zip"
-        token: ${{ secrets.GITHUB_TOKEN }}
-
-    - name: Download executable
-      uses: dsaltares/fetch-gh-release-asset@0.06
-      with:
-        repo: "lynx-chess/Lynx"
-        version: "${{ env.RELEASE_TAG }}"
-        file: "Lynx-0.1.0-alpha.1-linux-arm64.zip"
-        target: "artifacts/lynx-arm64.zip"
-        token: ${{ secrets.GITHUB_TOKEN }}
-
-    - name: Inspect
-      run: ls -al artifacts
-
-    - name: Inspect
-      run: ls -al artifacts/Lynx-linux-arm64
-
-    - name: Log in to registry
-        # This is where you will update the PAT to GITHUB_TOKEN
-      run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+        name: |
+          lynx-${{ env.ARM_RID }}
+          lynx-${{ env.AMD_RID }}
+        failOnError: false
