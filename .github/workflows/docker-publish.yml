@@ -96,7 +96,7 @@ jobs:
         echo "LYNX_RELEASE_VERSION=$("${{ env.LYNX_RELEASE_TAG }}".Replace('v', ''))" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
 
     - name: Docker login
-      run: echo "${{ secrets.DOCKER_REGISTRY_TOKEN }}" | docker login ${{ env.REGISTRY }} -u ${{ github.actor }} --password-stdin
+      run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ${{ env.REGISTRY }} -u ${{ github.actor }} --password-stdin
 
     - name: Set up QEMU
       uses: docker/setup-qemu-action@v1
