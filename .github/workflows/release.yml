@@ -1,9 +1,18 @@
 name: Create release
+
 on:
   registry_package:
-    types: [published]
+    types: [published, updated]
 
 jobs:
+
+  on-updated-package:
+    name: On updated package
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: hmarr/debug-action@v2
+
   create-release-bundle:
     name: Create release bundle
     if: github.event.registry_package.name == 'lynx-bot' && github.event.registry_package.package_version.container_metadata.manifest.media_type == 'application/vnd.docker.distribution.manifest.list.v2+json'
