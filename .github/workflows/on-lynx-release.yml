@@ -1,0 +1,20 @@
+name: On Lynx release
+
+on:
+  repository_dispatch:
+    types: [lynx-release]
+
+env:
+  LYNX_RELEASE_TAG: ${{ github.event.client_payload.tag }}
+
+jobs:
+  trigger-docker-publish:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Invoke docker-publish workflow
+      uses: benc-uk/workflow-dispatch@v1
+      with:
+        workflow: docker-publish.yml
+        token: ${{ secrets.REPO_ACCESS_TOKEN }}
+        inputs: '{ "tag": "github.event.client_payload.tag" }'

@@ -1,36 +1,44 @@
 name: Docker publish
-on:
-  repository_dispatch:
-    types: [lynx-release]
 
+on:
   workflow_dispatch:
     inputs:
       tag:
-        description: 'Lynx Release Tag'
-        required: true
+        description: 'Lynx release tag'
+        required: false
+        default: ''
+      run_number:
+        description: 'Lynx release.yml workflow run number. If not empty, artifact is downloaded from this workflow'
+        required: false
+        default: ''
+      version:
+        description: "Lynx version. Only useful when providing a 'run_number'"
+        required: false
+        default: ''
 env:
-  LYNX_RELEASE_TAG: ${{ github.event.client_payload.tag }}
+  LYNX_RELEASE_TAG: ${{ github.event.inputs.tag }}
+  LYNX_RELEASE_VERSION: ${{ github.event.inputs.version }}
   REGISTRY: ghcr.io
   ARM_RID: linux-arm64
   AMD_RID: linux-x64
 
 jobs:
-  name: Download Lynx artifacts
-  download-lynx-artifact:
+  download-lynx-artifact-from-release:
+    if: github.event.inputs.run_number == ''
     runs-on: ubuntu-latest
 
-    steps:
-    - name: Set LYNX_RELEASE_TAG env var in case of manual run
-      if: env.LYNX_RELEASE_TAG == ''
-      run: |
-        echo "LYNX_RELEASE_TAG=${{ github.event.inputs.tag }}" >> $GITHUB_ENV
+    strategy:
+      matrix:
+        rid: ["linux-arm64", "linux-x64"]
+      fail-fast: true
 
+    steps:
     - name: Set LYNX_RELEASE_VERSION env var
       shell: pwsh
       run: |
         echo "LYNX_RELEASE_VERSION=$("${{ env.LYNX_RELEASE_TAG }}".Replace('v', ''))" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
 
-    - name: Download ${{ env.ARM_RID }} and  ${{ env.AMD_RID }} executables
+    - name: Download ${{ matrix.rid }} executable
       shell: pwsh
       run: |
         function Download-Asset{
@@ -48,31 +56,52 @@ jobs:
           Expand-Archive artifacts/lynx-$rid.zip -DestinationPath artifacts/lynx-$rid/
           rm artifacts/lynx-$rid.zip
         }
-        If((test-path "artifacts/"))
-        {
-          Remove-Item "artifacts/" -Recurse
-        }
+
         New-Item -ItemType Directory -Force -Path artifacts/
-        Download-Asset -tag "${{ env.LYNX_RELEASE_TAG }}" -version "${{ env.LYNX_RELEASE_VERSION }}" -rid "${{ env.ARM_RID }}"
-        Download-Asset -tag "${{ env.LYNX_RELEASE_TAG }}" -version "${{ env.LYNX_RELEASE_VERSION }}" -rid "${{ env.AMD_RID }}"
+        Download-Asset -tag "${{ env.LYNX_RELEASE_TAG }}" -version "${{ env.LYNX_RELEASE_VERSION }}" -rid "${{ matrix.rid }}"
 
     - name: Upload artifacts
       uses: actions/upload-artifact@v2
       with:
-        name: lynx-${{ env.ARM_RID }}
+        name: lynx-${{ matrix.rid }}
         path: |
-          artifacts/lynx-${{ env.ARM_RID }}/
+          artifacts/lynx-${{ matrix.rid }}/
+        if-no-files-found: error
 
-    - name: Upload artifacts
+  download-lynx-artifact-from-workflow-run:
+    name: Download Lynx artifacts from a Lynx release workflow run
+    if: github.event.inputs.run_number != ''
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        rid: ["linux-arm64", "linux-x64"]
+      fail-fast: true
+
+    steps:
+    - name: Download artifact from workflow run
+      uses: dawidd6/action-download-artifact@v2
+      with:
+        github_token: ${{secrets.GITHUB_TOKEN}}
+        repo: lynx-chess/Lynx
+        workflow: release.yml
+        workflow_conclusion: success
+        run_number: ${{ github.event.inputs.run_number }}
+        name: Lynx-${{ env.LYNX_RELEASE_VERSION }}-${{ matrix.rid }}
+        path: artifacts/lynx-${{ matrix.rid }}
+
+    - name: Upload artifact
       uses: actions/upload-artifact@v2
       with:
-        name: lynx-${{ env.AMD_RID }}
+        name: lynx-${{ matrix.rid }}
         path: |
-          artifacts/lynx-${{ env.AMD_RID }}/
+          artifacts/lynx-${{ matrix.rid }}/
+        if-no-files-found: error
 
   publish-docker-images:
     name: Publish Docker images
-    needs: download-lynx-artifact
+    needs: [download-lynx-artifact-from-release, download-lynx-artifact-from-workflow-run]
+    if: ${{ always() }}
 
     runs-on: ubuntu-latest
     strategy:
@@ -87,15 +116,11 @@ jobs:
       with:
         path: artifacts/
 
-    - name: Set LYNX_RELEASE_TAG env var in case of manual run
-      if: env.LYNX_RELEASE_TAG == ''
-      run: |
-        echo "LYNX_RELEASE_TAG=${{ github.event.inputs.tag }}" >> $GITHUB_ENV
-
     - name: Set LYNX_RELEASE_VERSION env var
+      if: env.LYNX_RELEASE_VERSION == ''
       shell: pwsh
       run: |
-        echo "LYNX_RELEASE_VERSION=$("${{ env.LYNX_RELEASE_TAG }}".Replace('v', ''))" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
+        echo "LYNX_RELEASE_VERSION=$("${{ github.event.inputs.tag }}".Replace('v', ''))" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
 
     - name: Docker login
       run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ${{ env.REGISTRY }} -u ${{ github.actor }} --password-stdin
@@ -127,7 +152,7 @@ jobs:
 
   cleanup:
     name: Cleanup
-    needs: [download-lynx-artifact, publish-docker-images]
+    needs: [publish-docker-images]
     if: always()
 
     runs-on: ubuntu-latest

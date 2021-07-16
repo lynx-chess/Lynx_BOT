@@ -4,15 +4,14 @@ on:
     types: [published]
 
 jobs:
-  name: Create release
   create-release-bundle:
-    if: ${{ github.event.registry_package.name }} == 'lynx-bot' && github.event.registry_package.package_version.container_metadata.manifest.media_type == 'application/vnd.docker.distribution.manifest.list.v2+json'
-
     name: Create release bundle
+    if: github.event.registry_package.name == 'lynx-bot' && github.event.registry_package.package_version.container_metadata.manifest.media_type == 'application/vnd.docker.distribution.manifest.list.v2+json'
+
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+    - uses: actions/checkout@v2
 
     - name: Upload Lynx_BOT v${{ github.event.registry_package.package_version.container_metadata.tag.name }} artifact
       uses: actions/upload-artifact@v2
@@ -25,7 +24,6 @@ jobs:
 
     - name: Download artifact
       uses: actions/download-artifact@v2
-      if: github.event.inputs.should_create_github_release == 'true' && github.event.inputs.should_tag_new_version == 'true'
       with:
         name: Lynx_BOT-${{ github.event.registry_package.package_version.container_metadata.tag.name }}
         path: artifacts/
