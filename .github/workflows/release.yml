@@ -1,11 +1,9 @@
 name: Create release
-
 on:
   registry_package:
-    types: [published, updated]
+    types: [published, updated] 
 
 jobs:
-
   on-updated-package:
     name: On updated package
     runs-on: ubuntu-latest
