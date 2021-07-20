@@ -2,6 +2,14 @@ name: Create release
 on:
   registry_package:
     types: [published, updated]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Lynx_BOT release tag'
+        required: true
+        default: ''
+env:
+  LYNX_RELEASE_TAG: ${{ github.event.registry_package.package_version.container_metadata.tag.name }}
 
 jobs:
   on-updated-package:
@@ -13,17 +21,23 @@ jobs:
 
   create-release-bundle:
     name: Create release bundle
-    if: github.event.registry_package.name == 'lynx-bot' && github.event.registry_package.package_version.container_metadata.tag.name != 'latest' && github.event.registry_package.package_version.container_metadata.manifest.media_type == 'application/vnd.docker.distribution.manifest.list.v2+json'
+    if: github.event.inputs.version == '' || (github.event.registry_package.name == 'lynx-bot' && github.event.registry_package.package_version.container_metadata.tag.name != 'latest' && github.event.registry_package.package_version.container_metadata.manifest.media_type == 'application/vnd.docker.distribution.manifest.list.v2+json')
 
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v2
 
-    - name: Upload Lynx_BOT v${{ github.event.registry_package.package_version.container_metadata.tag.name }} artifact
+    - name: Set LYNX_RELEASE_TAG env var
+      if: env.LYNX_RELEASE_TAG == ''
+      shell: pwsh
+      run: |
+        echo "LYNX_RELEASE_TAG=${{ github.event.inputs.version }}" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
+
+    - name: Upload Lynx_BOT v${{ env.LYNX_RELEASE_TAG }} artifact
       uses: actions/upload-artifact@v2
       with:
-        name: Lynx_BOT-${{ github.event.registry_package.package_version.container_metadata.tag.name }}
+        name: Lynx_BOT-${{ env.LYNX_RELEASE_TAG }}
         path: |
           docker-compose.yml
           lynx_bot-config.yml
@@ -32,7 +46,7 @@ jobs:
     - name: Download artifact
       uses: actions/download-artifact@v2
       with:
-        name: Lynx_BOT-${{ github.event.registry_package.package_version.container_metadata.tag.name }}
+        name: Lynx_BOT-${{ env.LYNX_RELEASE_TAG }}
         path: artifacts/
 
     - name: Create GitHub release and upload assets
