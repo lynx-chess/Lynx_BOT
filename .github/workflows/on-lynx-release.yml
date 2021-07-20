@@ -15,6 +15,6 @@ jobs:
     - name: Invoke docker-publish workflow
       uses: benc-uk/workflow-dispatch@v1
       with:
-        workflow: docker-publish.yml
+        workflow: docker-publish
         token: ${{ secrets.REPO_ACCESS_TOKEN }}
         inputs: '{ "tag": "github.event.client_payload.tag" }'
