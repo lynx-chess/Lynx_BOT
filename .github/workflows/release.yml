@@ -1,7 +1,7 @@
 name: Create release
 on:
   registry_package:
-    types: [published, updated] 
+    types: [published, updated]
 
 jobs:
   on-updated-package:
@@ -13,7 +13,7 @@ jobs:
 
   create-release-bundle:
     name: Create release bundle
-    if: github.event.registry_package.name == 'lynx-bot' && github.event.registry_package.package_version.container_metadata.manifest.media_type == 'application/vnd.docker.distribution.manifest.list.v2+json'
+    if: github.event.registry_package.name == 'lynx-bot' && github.event.registry_package.package_version.container_metadata.tag.name != 'latest' && github.event.registry_package.package_version.container_metadata.manifest.media_type == 'application/vnd.docker.distribution.manifest.list.v2+json'
 
     runs-on: ubuntu-latest
 
