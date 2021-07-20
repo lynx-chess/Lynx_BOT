@@ -17,4 +17,4 @@ jobs:
       with:
         workflow: docker-publish
         token: ${{ secrets.REPO_ACCESS_TOKEN }}
-        inputs: '{ "tag": "github.event.client_payload.tag" }'
+        inputs: '{ "tag": "${{ env.LYNX_RELEASE_TAG }}" }'
