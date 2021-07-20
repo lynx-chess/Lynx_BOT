@@ -4,7 +4,7 @@ on:
     types: [published, updated]
   workflow_dispatch:
     inputs:
-      tag:
+      new_bot_version:
         description: 'Lynx_BOT release tag'
         required: true
         default: ''
@@ -12,16 +12,9 @@ env:
   LYNX_RELEASE_TAG: ${{ github.event.registry_package.package_version.container_metadata.tag.name }}
 
 jobs:
-  on-updated-package:
-    name: On updated package
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: hmarr/debug-action@v2
-
   create-release-bundle:
     name: Create release bundle
-    if: github.event.inputs.version == '' || (github.event.registry_package.name == 'lynx-bot' && github.event.registry_package.package_version.container_metadata.tag.name != 'latest' && github.event.registry_package.package_version.container_metadata.manifest.media_type == 'application/vnd.docker.distribution.manifest.list.v2+json')
+    if: github.event.inputs.new_bot_version != '' || (github.event.registry_package.name == 'lynx-bot' && github.event.registry_package.package_version.container_metadata.tag.name != 'latest' && github.event.registry_package.package_version.container_metadata.manifest.media_type == 'application/vnd.docker.distribution.manifest.list.v2+json')
 
     runs-on: ubuntu-latest
 
@@ -32,7 +25,7 @@ jobs:
       if: env.LYNX_RELEASE_TAG == ''
       shell: pwsh
       run: |
-        echo "LYNX_RELEASE_TAG=${{ github.event.inputs.version }}" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
+        echo "LYNX_RELEASE_TAG=${{ github.event.inputs.new_bot_version }}" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
 
     - name: Upload Lynx_BOT v${{ env.LYNX_RELEASE_TAG }} artifact
       uses: actions/upload-artifact@v2
@@ -49,14 +42,17 @@ jobs:
         name: Lynx_BOT-${{ env.LYNX_RELEASE_TAG }}
         path: artifacts/
 
+    - name: Compress artifact files
+      run: zip -0 -r -q -j "artifacts/Lynx_BOT-${{ env.LYNX_RELEASE_TAG }}.zip" "artifacts/"
+
     - name: Create GitHub release and upload assets
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         set -x
         assets=()
-        for asset in artifacts/*; do
+        for asset in artifacts/*.zip; do
           assets+=("-a" "$asset")
         done
-        tag_name="v${{ github.event.registry_package.package_version.container_metadata.tag.name }}"
+        tag_name="v${{ env.LYNX_RELEASE_TAG }}"
         hub release create "${assets[@]}" --draft --message "$tag_name" "$tag_name"
