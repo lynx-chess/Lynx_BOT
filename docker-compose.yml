@@ -4,14 +4,6 @@ services:
     cpus: 4
     mem_limit: "23g"
     image: ghcr.io/lynx-chess/lynx-bot:latest
-    build:
-      context: .
-      target: lynx-bot
-      args:
-        ARM_ARTIFACT_PATH: artifacts/lynx-linux-arm64
-        AMD_ARTIFACT_PATH: artifacts/lynx-linux-x64
-    env_file:
-      - .env
     volumes:
       - ./lynx_bot-config.yml:/lynx_bot/configtmp.yml
       - ./lichess-bot-logs:/lynx_bot/log
@@ -21,6 +13,6 @@ services:
       - sh
       - -c
       - |
-        sed "s/LICHESS_API_TOKEN/$LICHESS_API_TOKEN/" configtmp.yml > config.yml
+        sed "s/LICHESS_API_TOKEN/${LICHESS_API_TOKEN}/" configtmp.yml > config.yml
         . .venv/bin/activate
         python3 lichess-bot.py
