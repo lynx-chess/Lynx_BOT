@@ -145,7 +145,6 @@ jobs:
           linux/arm64
         tags: |
           ${{ env.REGISTRY }}/lynx-chess/${{ matrix.docker-target }}:${{ env.LYNX_RELEASE_VERSION }}
-          ${{ env.REGISTRY }}/lynx-chess/${{ matrix.docker-target }}:latest
         push: true
     - name: Image digest
       run: echo ${{ steps.docker_build.outputs.digest }}

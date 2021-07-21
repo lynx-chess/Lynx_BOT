@@ -27,6 +27,11 @@ jobs:
       run: |
         echo "LYNX_RELEASE_TAG=${{ github.event.inputs.new_bot_version }}" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
 
+    - name: Replacing :latest with :${{ env.LYNX_RELEASE_TAG }} in docker-compose.yml
+      shell: pwsh
+      run: |
+        ((Get-Content -path ./docker-compose.yml -Raw) -replace 'ghcr.io/lynx-chess/lynx-bot:latest','ghcr.io/lynx-chess/lynx-bot:${{ env.LYNX_RELEASE_TAG }}') | Set-Content -Path ./docker-compose.yml
+
     - name: Upload Lynx_BOT v${{ env.LYNX_RELEASE_TAG }} artifact
       uses: actions/upload-artifact@v2
       with:
