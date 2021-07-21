@@ -48,15 +48,15 @@ If you're only interested in the binaries, they're available [here](https://gith
 
 ## Official Lynx_BOT architecture
 
-![Architecture](resources/architecture_diagram.svg)
+![Architecture](resources/architecture_diagram.png)
 
 ## Licenses
 
 [Lynx](https://github.com/lynx-chess/Lynx) chess engine has a more permissive MIT license, but since this repository makes use of [lichess-bot](https://github.com/ShailChoksi/lichess-bot) as well, it's also licensed under **AGPL-3.0**.
 
-| Project | License | Relationship |
-| ------- | ------- | ------------ |
-| [Lynx](https://github.com/lynx-chess/Lynx) | MIT | Dependency |
-| [lichess-bot](https://github.com//lynx-chess/lichess-bot) | AGPL-3.0 | Dependency |
-| [lc0-docker](https://github.com/vochicong/lc0-docker) | - | Inspiration |
-| [**Lynx_BOT**](https://github.com/lynx-chess/Lynx_BOT) | **AGPL-3.0** | This project
+| Project                                                   | License      | Relationship |
+| --------------------------------------------------------- | ------------ | ------------ |
+| [Lynx](https://github.com/lynx-chess/Lynx)                | MIT          | Dependency   |
+| [lichess-bot](https://github.com//lynx-chess/lichess-bot) | AGPL-3.0     | Dependency   |
+| [lc0-docker](https://github.com/vochicong/lc0-docker)     | -            | Inspiration  |
+| [**Lynx_BOT**](https://github.com/lynx-chess/Lynx_BOT)    | **AGPL-3.0** | This project |
