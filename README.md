@@ -12,6 +12,10 @@ Although the code is open source so that it can be used to play from any account
 
 A [fork](https://github.com/lynx-chess/lichess-bot) of the 'official lichess bot client' ([ShailChoksi/lichess-bot](https://github.com/ShailChoksi/lichess-bot)) is used.
 
+Last version:
+
+[![Lynx_BOT release][releaselogo]][releaselink]
+
 ## Instructions
 
 Instructions to run Lynx chess engine in your own lichess account.
@@ -60,3 +64,6 @@ If you're only interested in the binaries, they're available [here](https://gith
 | [lichess-bot](https://github.com//lynx-chess/lichess-bot) | AGPL-3.0     | Dependency   |
 | [lc0-docker](https://github.com/vochicong/lc0-docker)     | -            | Inspiration  |
 | [**Lynx_BOT**](https://github.com/lynx-chess/Lynx_BOT)    | **AGPL-3.0** | This project |
+
+[releaselink]: https://github.com/lynx-chess/Lynx_BOT/releases/latest
+[releaselogo]: https://img.shields.io/github/v/release/lynx-chess/Lynx_BOT

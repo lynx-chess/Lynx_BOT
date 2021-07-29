@@ -101,7 +101,7 @@ jobs:
   publish-docker-images:
     name: Publish Docker images
     needs: [download-lynx-artifact-from-release, download-lynx-artifact-from-workflow-run]
-    if: ${{ always() }}
+    if: always()
 
     runs-on: ubuntu-latest
     strategy:
@@ -146,6 +146,7 @@ jobs:
         tags: |
           ${{ env.REGISTRY }}/lynx-chess/${{ matrix.docker-target }}:${{ env.LYNX_RELEASE_VERSION }}
         push: true
+
     - name: Image digest
       run: echo ${{ steps.docker_build.outputs.digest }}
 
