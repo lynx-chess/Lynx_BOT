@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
     inputs:
       new_bot_version:
-        description: 'Lynx_BOT release tag'
+        description: 'Lynx_BOT release version'
         required: true
         default: ''
 env:
