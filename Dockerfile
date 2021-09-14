@@ -35,7 +35,7 @@ RUN python3 -m venv .venv &&\
 ############################################################
 # Final base image
 ############################################################
-FROM mcr.microsoft.com/dotnet/runtime-deps:6.0.0-preview.6 as lynxbase
+FROM mcr.microsoft.com/dotnet/runtime-deps:6.0 as lynxbase
 
 ############################################################
 # Create final Lynx image
