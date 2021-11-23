@@ -46,11 +46,11 @@ resource "oci_core_instance" "lynx-vm" {
 	}
 	shape = "VM.Standard.A1.Flex"
 	shape_config {
-		memory_in_gbs = "24"
-		ocpus = "4"
+		memory_in_gbs = "12"
+		ocpus = "3"
 	}
 	source_details {
-		source_id = "ocid1.image.oc1.uk-london-1.aaaaaaaamnhklf4nuxzvi5pa5cvwopdeipqfmsqywoxmn7nuwayby3pxyz6a"  # Oracle-Linux-8.4-aarch64-2021.06.22-0
+		source_id = "ocid1.image.oc1.uk-london-1.aaaaaaaaqxf2zi634v7pirstfzjku5seji5m5senrt7jhnfmbanj4swo2lqa"  # Oracle-Linux-8.4-aarch64-2021.10.04-0
 		source_type = "image"
 	}
 	extended_metadata = {}
