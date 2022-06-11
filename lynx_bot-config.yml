@@ -30,7 +30,7 @@ move_overhead: 1000         # Increase if your bot flags games too often.
 
 
 challenge:                  # Incoming challenges
-  concurrency: 2            # Number of games to play simultaneously
+  concurrency: 5            # Number of games to play simultaneously
   sort_by: "best"           # Possible values: "best", "first"
   accept_bot: true          # Accepts challenges coming from other bots
   only_bot: false           # Accepts challenges by bots only
