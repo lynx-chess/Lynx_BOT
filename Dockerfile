@@ -1,12 +1,12 @@
 ARG ARM_ARTIFACT_PATH
 ARG AMD_ARTIFACT_PATH
 
-FROM mcr.microsoft.com/dotnet/sdk:6.0 as lynxbuilder-arm64
+FROM mcr.microsoft.com/dotnet/sdk:7.0 as lynxbuilder-arm64
 ARG ARM_ARTIFACT_PATH
 ONBUILD RUN test -n "$ARM_ARTIFACT_PATH"
 ONBUILD COPY $ARM_ARTIFACT_PATH /lynx
 
-FROM mcr.microsoft.com/dotnet/sdk:6.0 as lynxbuilder-amd64
+FROM mcr.microsoft.com/dotnet/sdk:7.0 as lynxbuilder-amd64
 ARG AMD_ARTIFACT_PATH
 ONBUILD RUN test -n "$AMD_ARTIFACT_PATH"
 ONBUILD COPY $AMD_ARTIFACT_PATH /lynx
@@ -35,7 +35,7 @@ RUN python3 -m venv .venv &&\
 ############################################################
 # Final base image
 ############################################################
-FROM mcr.microsoft.com/dotnet/runtime-deps:6.0 as lynxbase
+FROM mcr.microsoft.com/dotnet/runtime-deps:7.0 as lynxbase
 
 ############################################################
 # Create final Lynx image
