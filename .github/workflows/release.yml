@@ -60,4 +60,4 @@ jobs:
           assets+=("-a" "$asset")
         done
         tag_name="v${{ env.LYNX_RELEASE_TAG }}"
-        hub release create "${assets[@]}" --draft --message "$tag_name" "$tag_name"
+        hub release create "${assets[@]}" --draft --message "$tag_name" --message "[Lynx $tag_name](https://github.com/lynx-chess/Lynx/releases/tag/$tag_name)" "$tag_name"
