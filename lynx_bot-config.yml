@@ -126,9 +126,73 @@ challenge:                  # Incoming challenges
     - casual                # unrated games
     - rated                 # rated games - must comment if the engine doesn't try to win
 
-# block_list:                # List of users from which the challenges are always declined.
-#   - user1
-#   - user2
+  block_list:                # List of users from which the challenges are always declined
+  # Stockfish clones/derivatives
+    - VariantsBot
+    - CocopikachuBOT
+    - ResoluteBot
+    - YoBot_v2
+    - RaspFish
+    - FlamingDragon_9000
+    - caissa-x
+    - caissa-ai
+    - caissa-test
+    - Shineshou90_BOT
+    - Official_bot
+    - Bot_master_india
+    - unrevealed-Bot
+    - Nikitosikbot
+    - Nikitosik-ai
+    - NikitosikVariantsbot
+    - Perfect-Bot
+    - MrChessTheBot
+    - blundar_bot
+    - FireFishBOT
+    - FireFishBOT_v2
+    - ToromBot
+    - pangubot
+    - faith_bot
+    - FishFingersMcGee
+    - EmptikBot247
+    - OpeningsBot
+    - Viet-AI
+    - Try_To_Beat_Me_Kid
+    - stockfish12_Johan
+    - Bot_AOOP11
+    - WillBoChessEngine
+    - TeamChelsie
+    - SkyBlaster
+    - blue_lightningdragon
+    - lord-bot
+    - VishyNotAnand_TheBot
+    - The_Stockfish_14_Pro
+    - StockSergio
+    - beckapplebot
+    - Chess_Champion12
+    - StockfishPower
+    - Stockfish-MEDIUM
+    - VariantTourneysBot
+    - chesshyperbot
+    - BufferUnderflow
+    - THE_STRONGEST_BOT
+    - bot_bigbrain
+    - Test_God_50_BOT
+    - LoseisnotAvailablehe
+    - Botdefoin
+    - EmptikBot
+    - EmptikVariantsBot
+    - EmptikBotEman
+    - VariantsONTop
+    - ProteusSF
+    - ProteusSF-lite
+    - ProteusSF-Open
+    - ProteusSF-Turbo
+    - ttBOT
+    - BRAINLEARN11_NNUE
+    - HansNiemannBot
+    - ReinforcementTrial
+    - Mate-AI
+
   recent_bot_challenge_age: 60 # Maximum age of a bot challenge to be considered recent in seconds
   max_recent_bot_challenges: 2 # Maximum number of recent challenges that can be accepted from the same bot
 
@@ -164,6 +228,73 @@ matchmaking:
   challenge_mode: "rated"    # Set it to the mode in which challenges are sent. Possible options are 'casual', 'rated' and 'random'.
   challenge_filter: fine  # If a bot declines a challenge, do not issue a similar challenge to that bot. Possible options are 'none', 'coarse', and 'fine'.
 
-  # block_list:                 # The list of bots that will not be challenged
-  #   - user1
-  #   - user2
+  block_list:                 # The list of bots that will not be challenged
+  # Stockfish clones/derivatives
+    - VariantsBot
+    - CocopikachuBOT
+    - ResoluteBot
+    - YoBot_v2
+    - RaspFish
+    - FlamingDragon_9000
+    - caissa-x
+    - caissa-ai
+    - caissa-test
+    - Shineshou90_BOT
+    - Official_bot
+    - Bot_master_india
+    - unrevealed-Bot
+    - Nikitosikbot
+    - Nikitosik-ai
+    - NikitosikVariantsbot
+    - Perfect-Bot
+    - MrChessTheBot
+    - blundar_bot
+    - FireFishBOT
+    - FireFishBOT_v2
+    - ToromBot
+    - pangubot
+    - faith_bot
+    - FishFingersMcGee
+    - EmptikBot247
+    - OpeningsBot
+    - Viet-AI
+    - Try_To_Beat_Me_Kid
+    - stockfish12_Johan
+    - Bot_AOOP11
+    - WillBoChessEngine
+    - TeamChelsie
+    - SkyBlaster
+    - blue_lightningdragon
+    - lord-bot
+    - VishyNotAnand_TheBot
+    - The_Stockfish_14_Pro
+    - StockSergio
+    - beckapplebot
+    - Chess_Champion12
+    - StockfishPower
+    - Stockfish-MEDIUM
+    - VariantTourneysBot
+    - chesshyperbot
+    - BufferUnderflow
+    - THE_STRONGEST_BOT
+    - bot_bigbrain
+    - Test_God_50_BOT
+    - LoseisnotAvailablehe
+    - Botdefoin
+    - EmptikBot
+    - EmptikVariantsBot
+    - EmptikBotEman
+    - VariantsONTop
+    - ProteusSF
+    - ProteusSF-lite
+    - ProteusSF-Open
+    - ProteusSF-Turbo
+    - ttBOT
+    - BRAINLEARN11_NNUE
+    - HansNiemannBot
+    - ReinforcementTrial
+    - Mate-AI
+  # Don't want to receive challenges
+    - openingsexercise
+    - turochamp-1ply
+    - turochamp-2ply
