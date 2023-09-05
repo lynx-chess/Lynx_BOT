@@ -6,6 +6,11 @@
   <a href="https://lichess.org/?user=lynx_bot#friend">👉 <b>Play me on Lichess</b> 👈</a>
 </p>
 
+[![lichess-rapid](https://lichess-shield.vercel.app/api?username=Lynx_BOT&format=bullet)](https://lichess.org/@/Lynx_BOT/perf/bullet)
+[![lichess-rapid](https://lichess-shield.vercel.app/api?username=Lynx_BOT&format=blitz)](https://lichess.org/@/Lynx_BOT/perf/blitz)
+[![lichess-rapid](https://lichess-shield.vercel.app/api?username=Lynx_BOT&format=rapid)](https://lichess.org/@/Lynx_BOT/perf/rapid)
+[![lichess-classical](https://lichess-shield.vercel.app/api?username=Lynx_BOT&format=classical)](https://lichess.org/@/Lynx_BOT/perf/classical)
+
 This repo sets up [**Lynx**](https://github.com/lynx-chess/Lynx) chess engine to play in lichess.org.
 
 Although the code is open source so that it can be used to play from any account, **the official Lynx account is [Lynx_BOT](https://lichess.org/@/Lynx_BOT)**.
