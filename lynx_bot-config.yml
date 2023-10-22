@@ -208,6 +208,10 @@ challenge:                  # Incoming challenges
     - LeelaMultiPoss
     - ShashChess_MsP
     - AnonymousBotter
+    - LioCT
+    - ararimbelami
+    - FantacticEman
+    - Leela8-Test
 
   recent_bot_challenge_age: 60 # Maximum age of a bot challenge to be considered recent in seconds
   max_recent_bot_challenges: 2 # Maximum number of recent challenges that can be accepted from the same bot
@@ -227,25 +231,33 @@ matchmaking:
   challenge_variant: "standard" # If set to 'random', the bot will choose one variant from the variants enabled in 'challenge.variants'.
   challenge_timeout: 1        # Create a challenge after being idle for 'challenge_timeout' minutes. The minimum is 1 minute.
   challenge_initial_time:     # Initial time in seconds of the challenge (to be chosen at random).
-    - 300
+    - 1200
+    #- 300
     - 180
     - 60
   challenge_increment:        # Increment in seconds of the challenge (to be chosen at random).
-    - 5
-    - 2
+    - 8
+    #- 5
+    #- 2
     - 1
+#1200 8 - classical
+#1200 1 - rapid
+# 180 8 - rapid
+# 180 1 - blitz
+#  60 8 - blitz
+#  60 1 - bullet
 #  challenge_days:            # Days for correspondence challenge (to be chosen at random).
 #    - 1
 #    - 2
   opponent_min_rating: 1600   # Opponents rating should be above this value (600 is the minimum rating in lichess).
-  opponent_max_rating: 2700   # Opponents rating should be below this value (4000 is the maximum rating in lichess).
+  opponent_max_rating: 2500   # Opponents rating should be below this value (4000 is the maximum rating in lichess).
   # opponent_rating_difference: 100 # The maximum difference in rating between the bot's rating and opponent's rating.
   opponent_allow_tos_violation: false # Set to 'false' to prevent challenging bots that violated Lichess Terms of Service.
   challenge_mode: "rated"    # Set it to the mode in which challenges are sent. Possible options are 'casual', 'rated' and 'random'.
   challenge_filter: fine  # If a bot declines a challenge, do not issue a similar challenge to that bot. Possible options are 'none', 'coarse', and 'fine'.
 
   block_list:                 # The list of bots that will not be challenged
-  # Stockfish clones/derivatives
+  # Stockfish/Leela clones/derivatives
     - VariantsBot
     - CocopikachuBOT
     - ResoluteBot
@@ -326,6 +338,10 @@ matchmaking:
     - LeelaMultiPoss
     - ShashChess_MsP
     - AnonymousBotter
+    - LioCT
+    - ararimbelami
+    - FantacticEman
+    - Leela8-Test
   # Don't want to receive challenges
     - openingsexercise
     - turochamp-1ply
