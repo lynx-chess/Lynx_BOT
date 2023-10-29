@@ -213,6 +213,21 @@ challenge:                  # Incoming challenges
     - ararimbelami
     - FantacticEman
     - Leela8-Test
+    - LC0-Bot
+    - Occhessadvanced
+    - EmanPureNN
+    - FantacticEman
+    - EmanBot
+    - Africaata
+    - EmanPureNN
+    - RipTorn
+    - kdpchess
+    - KQRBNPkqrbnp
+    - UnbalanceBot
+    - ShashChessBot
+    - Unreal-Chess
+    - SolistaBot
+    - KhalidOmar
 
   recent_bot_challenge_age: 60 # Maximum age of a bot challenge to be considered recent in seconds
   max_recent_bot_challenges: 2 # Maximum number of recent challenges that can be accepted from the same bot
@@ -344,6 +359,21 @@ matchmaking:
     - ararimbelami
     - FantacticEman
     - Leela8-Test
+    - LC0-Bot
+    - Occhessadvanced
+    - EmanPureNN
+    - FantacticEman
+    - EmanBot
+    - Africaata
+    - EmanPureNN
+    - RipTorn
+    - kdpchess
+    - KQRBNPkqrbnp
+    - UnbalanceBot
+    - ShashChessBot
+    - Unreal-Chess
+    - SolistaBot
+    - KhalidOmar
   # Don't want to receive challenges
     - openingsexercise
     - turochamp-1ply
