@@ -278,9 +278,9 @@ matchmaking:
         - 1200                          # 20 + 8
       challenge_increment:
         - 8
-    rapid:                              # 10 + 5
+    rapid:                              # 5 + 5
       challenge_initial_time:
-        - 600
+        - 300
       challenge_increment:
         - 5
     blitz:                              # 3 + 2
