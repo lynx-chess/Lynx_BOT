@@ -116,11 +116,17 @@ jobs:
       with:
         path: artifacts/
 
-    - name: Set LYNX_RELEASE_VERSION env var
-      if: env.LYNX_RELEASE_VERSION == ''
+    - name: Set LYNX_RELEASE_TAG env var
+      if: env.LYNX_RELEASE_TAG == ''
       shell: pwsh
       run: |
-        echo "LYNX_RELEASE_VERSION=$("${{ github.event.inputs.tag }}".Replace('v', ''))" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
+        echo "LYNX_RELEASE_TAG=$("${{ github.event.inputs.version }}".Replace('v', ''))" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
+
+    - name: Amend LYNX_RELEASE_TAG env var
+      if: env.LYNX_RELEASE_TAG != ''
+      shell: pwsh
+      run: |
+        echo "LYNX_RELEASE_TAG=$("${{ env.LYNX_RELEASE_TAG }}".Replace('v', ''))" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
 
     - name: Docker login
       run: echo "${{ secrets.DOCKER_REGISTRY_TOKEN }}" | docker login ${{ env.REGISTRY }} -u ${{ github.actor }} --password-stdin
@@ -144,7 +150,7 @@ jobs:
           linux/amd64
           linux/arm64
         tags: |
-          ${{ env.REGISTRY }}/lynx-chess/${{ matrix.docker-target }}:${{ env.LYNX_RELEASE_VERSION }}
+          ${{ env.REGISTRY }}/lynx-chess/${{ matrix.docker-target }}:${{ env.LYNX_RELEASE_TAG}}
         push: true
 
     - name: Image digest
