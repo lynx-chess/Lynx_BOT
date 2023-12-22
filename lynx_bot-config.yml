@@ -94,6 +94,10 @@ fake_think_time: false      # Artificially slow down the bot to pretend like it'
 rate_limiting_delay: 0      # Time (in ms) to delay after sending a move to prevent "Too Many Requests" errors.
 move_overhead: 1000         # Increase if your bot flags games too often.
 pgn_directory: "game_records" # A directory where PGN-format records of the bot's games are kept
+pgn_file_grouping: "all"      # How to group games into files. Options are "game", "opponent", and "all"
+                                   # "game" (default) - every game is written to a different file named "{White name} vs. {Black name} - {lichess game ID}.pgn"
+                                   # "opponent" - every game with a given opponent is written to a file named "{Bot name} games vs. {Opponent name}.pgn"
+                                   # "all" - every game is written to a single file named "{Bot name} games.pgn"
 
 challenge:                  # Incoming challenges
   concurrency: 5            # Number of games to play simultaneously
@@ -257,30 +261,38 @@ matchmaking:
   challenge_variant: "standard" # If set to 'random', the bot will choose one variant from the variants enabled in 'challenge.variants'.
   challenge_timeout: 1        # Create a challenge after being idle for 'challenge_timeout' minutes. The minimum is 1 minute.
   challenge_initial_time:     # Initial time in seconds of the challenge (to be chosen at random).
-    - 1200
-    #- 300
-    - 180
-    - 60
+    - 60                                # 60 + 1
   challenge_increment:        # Increment in seconds of the challenge (to be chosen at random).
-    - 8
-    #- 5
-    #- 2
     - 1
-#1200 8 - classical
-#1200 1 - rapid
-# 180 8 - rapid
-# 180 1 - blitz
-#  60 8 - blitz
-#  60 1 - bullet
-#  challenge_days:            # Days for correspondence challenge (to be chosen at random).
-#    - 1
-#    - 2
-  opponent_min_rating: 1600   # Opponents rating should be above this value (600 is the minimum rating in lichess).
-  opponent_max_rating: 2500   # Opponents rating should be below this value (4000 is the maximum rating in lichess).
+
+  opponent_min_rating: 1700   # Opponents rating should be above this value (600 is the minimum rating in lichess).
+  opponent_max_rating: 2600   # Opponents rating should be below this value (4000 is the maximum rating in lichess).
   # opponent_rating_difference: 100 # The maximum difference in rating between the bot's rating and opponent's rating.
   opponent_allow_tos_violation: false # Set to 'false' to prevent challenging bots that violated Lichess Terms of Service.
   challenge_mode: "rated"    # Set it to the mode in which challenges are sent. Possible options are 'casual', 'rated' and 'random'.
   challenge_filter: fine  # If a bot declines a challenge, do not issue a similar challenge to that bot. Possible options are 'none', 'coarse', and 'fine'.
+
+  overrides:                        # List of overrides for the matchmaking specifications above. When a challenge is created, either the default specification above or one of the overrides will be randomly chosen.
+    classical:                      # Name of the override. Can be anything as long as each override has a unique name ("bullet_only_horde" and "easy_chess960" in these examples).
+      challenge_initial_time:
+        - 1200                          # 20 + 8
+      challenge_increment:
+        - 8
+    rapid:                              # 10 + 5
+      challenge_initial_time:
+        - 600
+      challenge_increment:
+        - 5
+    blitz:                              # 3 + 2
+      challenge_initial_time:
+        - 180
+      challenge_increment:
+        - 2
+    # bullet:   # Included in the main specification
+    #   challenge_initial_time:
+    #     - 60
+    #   challenge_increment:
+    #     - 1
 
   block_list:                 # The list of bots that will not be challenged
   # Stockfish/Leela clones/derivatives
