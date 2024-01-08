@@ -193,6 +193,7 @@ challenge:                  # Incoming challenges
     - ProteusSF-Turbo
     - ProteusSF-Aureo
     - ProteusSF-Godot
+    - ProteusSFX-AI
     - ttBOT
     - BRAINLEARN11_NNUE
     - HansNiemannBot
@@ -219,6 +220,8 @@ challenge:                  # Incoming challenges
     - Leela8-Test
     - LC0-Bot
     - Leelabotmaster
+    - Zas_en_toda_la_boca
+    - LeelaMultiPoss
     - Occhessadvanced
     - EmanPureNN
     - EmanBot
@@ -242,6 +245,18 @@ challenge:                  # Incoming challenges
     - No-StockFish-Bots
     - MacUser60
     - duythong1402
+    - The_Devansh117
+    - BOT5431
+    - Botkingteam33
+    - botteam-com
+    - Major-Maxy
+    - BOT-Feline
+    - Karpov_bot
+    - que-encrypt
+    - Leela420
+    - LBOT007
+    - Fast_Checkmate_ALL
+    - meomeous
 
   recent_bot_challenge_age: 60 # Maximum age of a bot challenge to be considered recent in seconds
   max_recent_bot_challenges: 2 # Maximum number of recent challenges that can be accepted from the same bot
@@ -357,6 +372,7 @@ matchmaking:
     - ProteusSF-Turbo
     - ProteusSF-Aureo
     - ProteusSF-Godot
+    - ProteusSFX-AI
     - ttBOT
     - BRAINLEARN11_NNUE
     - HansNiemannBot
@@ -383,6 +399,8 @@ matchmaking:
     - Leela8-Test
     - LC0-Bot
     - Leelabotmaster
+    - Zas_en_toda_la_boca
+    - LeelaMultiPoss
     - Occhessadvanced
     - EmanPureNN
     - EmanBot
@@ -406,6 +424,18 @@ matchmaking:
     - No-StockFish-Bots
     - MacUser60
     - duythong1402
+    - The_Devansh117
+    - BOT5431
+    - Botkingteam33
+    - botteam-com
+    - Major-Maxy
+    - BOT-Feline
+    - Karpov_bot
+    - que-encrypt
+    - Leela420
+    - LBOT007
+    - Fast_Checkmate_ALL
+    - meomeous
   # Don't want to receive challenges
     - openingsexercise
     - turochamp-1ply
