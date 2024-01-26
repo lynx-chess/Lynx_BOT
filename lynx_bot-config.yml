@@ -258,6 +258,21 @@ challenge:                  # Incoming challenges
     - Fast_Checkmate_ALL
     - meomeous
     - MyNameIsLeela
+    - MegaChessRBOT
+    - CheemsChungusBOT
+    - FlixBot
+    - libarychesscoffee
+    - isaac_terminator
+    - opentalbot2023
+    - PurpleHunter
+    - FireChessX
+    - TasmanRevenge
+    - AlexaGarry-BOT
+    - uai-bot-sf-005
+    - simbelmyne-bot
+    - bird_xx
+    - uai-bot-test-3
+    - isaac_terminator
 
   recent_bot_challenge_age: 60 # Maximum age of a bot challenge to be considered recent in seconds
   max_recent_bot_challenges: 2 # Maximum number of recent challenges that can be accepted from the same bot
@@ -438,6 +453,21 @@ matchmaking:
     - Fast_Checkmate_ALL
     - meomeous
     - MyNameIsLeela
+    - MegaChessRBOT
+    - CheemsChungusBOT
+    - FlixBot
+    - libarychesscoffee
+    - isaac_terminator
+    - opentalbot2023
+    - PurpleHunter
+    - FireChessX
+    - TasmanRevenge
+    - AlexaGarry-BOT
+    - uai-bot-sf-005
+    - simbelmyne-bot
+    - bird_xx
+    - uai-bot-test-3
+    - isaac_terminator
   # Don't want to receive challenges
     - openingsexercise
     - turochamp-1ply
