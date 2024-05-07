@@ -43,11 +43,19 @@ engine:                     # Engine settings
       contribute: true
     lichess_cloud_analysis:
       enabled: false
-      min_time: 20
+      min_time: 55
       move_quality: "good"   # One of "good", "best".
       max_score_difference: 50 # Only for move_quality: "good". The maximum score difference (in cp) between the best move and the other moves.
       min_depth: 20
       min_knodes: 0
+    lichess_opening_explorer:
+      enabled: true
+      min_time: 55
+      move_quality: "good"
+      source: "lichess"            # One of "lichess", "masters", "player"
+      player_name: ""              # The lichess username. Leave empty for the bot's username to be used. Used only when source is "player".
+      # sort: "winrate"              # One of "winrate", "games_played"
+      min_games: 10                # Minimum number of times a move must have been played to be chosen.
     online_egtb:
       enabled: false
       min_time: 20
@@ -272,7 +280,8 @@ challenge:                  # Incoming challenges
     - simbelmyne-bot
     - bird_xx
     - uai-bot-test-3
-    - isaac_terminator
+    - M2-MY
+    - PetersBot
 
   recent_bot_challenge_age: 60 # Maximum age of a bot challenge to be considered recent in seconds
   max_recent_bot_challenges: 2 # Maximum number of recent challenges that can be accepted from the same bot
@@ -296,8 +305,8 @@ matchmaking:
   challenge_increment:        # Increment in seconds of the challenge (to be chosen at random).
     - 1
 
-  opponent_min_rating: 1700   # Opponents rating should be above this value (600 is the minimum rating in lichess).
-  opponent_max_rating: 2600   # Opponents rating should be below this value (4000 is the maximum rating in lichess).
+  opponent_min_rating: 1899   # Opponents rating should be above this value (600 is the minimum rating in lichess).
+  opponent_max_rating: 2800   # Opponents rating should be below this value (4000 is the maximum rating in lichess).
   # opponent_rating_difference: 100 # The maximum difference in rating between the bot's rating and opponent's rating.
   opponent_allow_tos_violation: false # Set to 'false' to prevent challenging bots that violated Lichess Terms of Service.
   challenge_mode: "rated"    # Set it to the mode in which challenges are sent. Possible options are 'casual', 'rated' and 'random'.
@@ -467,7 +476,8 @@ matchmaking:
     - simbelmyne-bot
     - bird_xx
     - uai-bot-test-3
-    - isaac_terminator
+    - M2-MY
+    - PetersBot
   # Don't want to receive challenges
     - openingsexercise
     - turochamp-1ply
