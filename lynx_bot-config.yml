@@ -3,6 +3,8 @@ url: "https://lichess.org/" # Lichess base URL
 
 engine:                     # Engine settings
   dir: "/lynx"              # Dir containing engines
+  working_dir: ""                  # Directory where the chess engine will read and write files. If blank or missing, the current directory is used.
+                                   # NOTE: If working_dir is set, the engine will look for files and directories relative to this directory, not where lichess-bot was launched. Absolute paths are unaffected.
   name: "Lynx"              # Binary name of the engine to use
   protocol: "uci"
   ponder: false
@@ -20,6 +22,8 @@ engine:                     # Engine settings
 # #     etc.
 # #     Use the same pattern for 'giveaway' (antichess), 'crazyhouse', 'horde', 'kingofthehill', 'racingkings' and '3check' as well.
 #     min_weight: 1            # Does not select moves with weight below min_weight (min 0, max: 65535).
+    # selection: "weighted_random"   # Move selection is one of "weighted_random", "uniform_random" or "best_move" (but not below the min_weight in the 2nd and 3rd case).
+    # max_depth: 20                  # How many moves from the start to take from the book.
 
   draw_or_resign:
     resign_enabled: false
@@ -33,14 +37,15 @@ engine:                     # Engine settings
     # offer_draw_pieces: 10    # Only if the pieces on board are less than or equal to this value, the bot offers/accepts draw.
 
   online_moves:
-    max_out_of_book_moves: 8 # Stop using online opening books after they don't have a move for 'max_out_of_book_moves' positions. Doesn't apply to the online endgame tablebases.
+    max_depth: 8 # The maximum number of moves a bot can make in the opening before it stops consulting the online opening books. If max_depth is 5, then the bot will stop consulting the online books after its fifth move
+    max_out_of_book_moves: 4 # Stop using online opening books after they don't have a move for 'max_out_of_book_moves' positions. Doesn't apply to the online endgame tablebases.
     max_retries: 2           # The maximum amount of retries when getting an online move.
     chessdb_book:
       enabled: false
       min_time: 20
       move_quality: "good"   # One of "all", "good", "best".
       min_depth: 20          # Only for move_quality: "best".
-      contribute: true
+      contribute: false
     lichess_cloud_analysis:
       enabled: true
       min_time: 55
@@ -109,13 +114,16 @@ pgn_file_grouping: "all"      # How to group games into files. Options are "game
 
 challenge:                  # Incoming challenges
   concurrency: 5            # Number of games to play simultaneously
-  sort_by: "best"           # Possible values: "best", "first"
+  sort_by: "first"          # Possible values: "best", "first"
   accept_bot: true          # Accepts challenges coming from other bots
   only_bot: false           # Accepts challenges by bots only
   max_increment: 30         # Maximum amount of increment to accept a challenge. the max is 180s. set to 0 for no increment
   min_increment: 0          # Minimum amount of increment to accept a challenge
   max_base: 5400            # Maximum amount of base time to accept a challenge. 1:30h
   min_base: 0               # Minimum amount of base time to accept a challenge. 0s
+  # max_days: 14                     # Maximum number of days per move to accept a challenge for a correspondence game.
+                                   # Unlimited games can be accepted by removing this field or specifying .inf
+  # min_days: 1                      # Minimum number of days per move to accept a challenge for a correspondence game.
   variants:                 # Chess variants to accept (http://lichess.org/variant)
     - standard
     - fromPosition
@@ -288,9 +296,14 @@ challenge:                  # Incoming challenges
     - zlatana75
     - magnusglad_bot
     - SOLIDOR59
+    - Ultron81
+    - ZAXAZAXA
+    - CoderDen732
+    - Puztel-bot
 
   recent_bot_challenge_age: 60 # Maximum age of a bot challenge to be considered recent in seconds
   max_recent_bot_challenges: 2 # Maximum number of recent challenges that can be accepted from the same bot
+  bullet_requires_increment: False # Require that bullet game challenges from bots have a non-zero increment
 
 greeting:
   # Optional substitution keywords (include curly braces):
@@ -490,6 +503,10 @@ matchmaking:
     - zlatana75
     - magnusglad_bot
     - SOLIDOR59
+    - Ultron81
+    - ZAXAZAXA
+    - CoderDen732
+    - Puztel-bot
   # Don't want to receive challenges
     - openingsexercise
     - turochamp-1ply
