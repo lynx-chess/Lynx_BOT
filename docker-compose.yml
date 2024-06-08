@@ -1,14 +1,13 @@
 version: "2.3"
 services:
   Lynx_BOT:
-    cpus: 3
-    mem_limit: "12g"
-    image: ghcr.io/lynx-chess/lynx-bot:0.10.0
+    cpus: 4
+    mem_limit: "23g"
+    image: ghcr.io/lynx-chess/lynx-bot:latest
     volumes:
       - ./lynx_bot-config.yml:/lynx_bot/configtmp.yml
       - ./lichess-bot-logs:/lynx_bot/log
       - ./lynx-logs:/lynx/logs
-      - ./dotnet-tmp:/tmp
     working_dir: /lynx_bot
     command:
       - sh
@@ -17,41 +16,3 @@ services:
         sed "s/LICHESS_API_TOKEN/${LICHESS_API_TOKEN}/" configtmp.yml > config.yml
         . .venv/bin/activate
         python3 lichess-bot.py
-
-  dotnet-monitor:
-    cpus: 0.5
-    mem_limit: "250m"
-    image: mcr.microsoft.com/dotnet/monitor:latest
-    volumes:
-      - ./dotnet-tmp:/tmp
-    ports:
-      - 52323:52323
-    expose:
-      - 52323
-    environment:
-      - urls=http://*:52323
-
-  prometheus:
-    cpus: 0.5
-    mem_limit: "250m"
-    image: ubuntu/prometheus:latest
-    volumes:
-      - ./prometheus.yml:/etc/prometheus/prometheus.yml
-    ports:
-      - 30090:9090
-    expose:
-      - 30090
-
-  grafana:
-    cpus: 0.5
-    mem_limit: "250m"
-    image: grafana/grafana:latest
-    environment:
-      # - GF_AUTH_DISABLE_LOGIN_FORM=true
-      - GF_AUTH_ANONYMOUS_ENABLED=true
-      # - GF_AUTH_ORG_ROLE=viewer
-    ports:
-      - 3000:3000
-    expose:
-      - 3000
-
