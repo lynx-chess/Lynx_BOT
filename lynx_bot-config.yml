@@ -304,6 +304,8 @@ challenge:                  # Incoming challenges
     - zoro25bot
     - zhoubot
     - Nebulogic # Torch impersonator
+    - gage12_bot
+    - tomewyrm
 
   recent_bot_challenge_age: 60 # Maximum age of a bot challenge to be considered recent in seconds
   max_recent_bot_challenges: 2 # Maximum number of recent challenges that can be accepted from the same bot
@@ -516,6 +518,8 @@ matchmaking:
     - zoro25bot
     - zhoubot
     - Nebulogic # Torch impersonator
+    - gage12_bot
+    - tomewyrm
   # Don't want to receive challenges
     - openingsexercise
     - turochamp-1ply
