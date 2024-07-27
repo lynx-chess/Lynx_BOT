@@ -9,6 +9,7 @@ services:
       - ./lichess-bot-logs:/lynx_bot/log
       - ./lynx-logs:/lynx/logs
     working_dir: /lynx_bot
+    restart: always
     command:
       - sh
       - -c
