@@ -301,11 +301,19 @@ challenge:                  # Incoming challenges
     - CoderDen732
     - Puztel-bot
     - Mr-Chess-Berserk
-    - zoro25bot
-    - zhoubot
-    - Nebulogic # Torch impersonator
-    - gage12_bot
-    - tomewyrm
+    - good_bot223344
+    - KunkkaBot
+    - Lenya228_BOT
+    - sora3-stockfish
+    - IA_Horus
+    - chessbot2880
+    - ChessBot2156
+    - MateAI
+    - WoodStyleEngine
+    - R4033
+    - EslamFishV99
+    - droidfish07
+    - Minchesterbot
 
   recent_bot_challenge_age: 60 # Maximum age of a bot challenge to be considered recent in seconds
   max_recent_bot_challenges: 2 # Maximum number of recent challenges that can be accepted from the same bot
@@ -515,11 +523,19 @@ matchmaking:
     - CoderDen732
     - Puztel-bot
     - Mr-Chess-Berserk
-    - zoro25bot
-    - zhoubot
-    - Nebulogic # Torch impersonator
-    - gage12_bot
-    - tomewyrm
+    - good_bot223344
+    - KunkkaBot
+    - Lenya228_BOT
+    - sora3-stockfish
+    - IA_Horus
+    - chessbot2880
+    - ChessBot2156
+    - MateAI
+    - WoodStyleEngine
+    - R4033
+    - EslamFishV99
+    - droidfish07
+    - Minchesterbot
   # Don't want to receive challenges
     - openingsexercise
     - turochamp-1ply
