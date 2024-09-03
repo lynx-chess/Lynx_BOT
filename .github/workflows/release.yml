@@ -47,7 +47,7 @@ jobs:
         if-no-files-found: error
 
     - name: Download artifact
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v4.1.7
       with:
         name: Lynx_BOT-${{ env.LYNX_RELEASE_TAG }}
         path: artifacts/
