@@ -14,7 +14,7 @@ env:
 jobs:
   create-release-bundle:
     name: Create release bundle
-    if: github.event.inputs.new_bot_version != '' || (github.event.registry_package.name == 'lynx-bot' && github.event.registry_package.package_version.container_metadata.manifest.media_type == 'application/vnd.docker.distribution.manifest.list.v2+json')
+    if: github.event.inputs.new_bot_version != '' || (github.event.registry_package.name == 'lynx-bot' && github.event.registry_package.package_version.container_metadata.tag.name != '')
 
     runs-on: ubuntu-latest
 
