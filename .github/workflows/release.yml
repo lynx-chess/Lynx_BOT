@@ -24,7 +24,7 @@ jobs:
       run: |
         sudo apt-get update && sudo apt-get install -y hub
 
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
 
     - name: Set LYNX_RELEASE_TAG env var
       if: env.LYNX_RELEASE_TAG == ''
@@ -38,7 +38,7 @@ jobs:
         ((Get-Content -path ./docker-compose.yml -Raw) -replace 'ghcr.io/lynx-chess/lynx-bot:latest','ghcr.io/lynx-chess/lynx-bot:${{ env.LYNX_RELEASE_TAG }}') | Set-Content -Path ./docker-compose.yml
 
     - name: Upload Lynx_BOT v${{ env.LYNX_RELEASE_TAG }} artifact
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: Lynx_BOT-${{ env.LYNX_RELEASE_TAG }}
         path: |
@@ -47,7 +47,7 @@ jobs:
         if-no-files-found: error
 
     - name: Download artifact
-      uses: actions/download-artifact@v4.1.7
+      uses: actions/download-artifact@v4
       with:
         name: Lynx_BOT-${{ env.LYNX_RELEASE_TAG }}
         path: artifacts/
