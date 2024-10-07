@@ -314,6 +314,9 @@ challenge:                  # Incoming challenges
     - EslamFishV99
     - droidfish07
     - Minchesterbot
+    - Nitrik_asit
+    - ProjectHuman
+    - Stark_Robot_super
 
   recent_bot_challenge_age: 60 # Maximum age of a bot challenge to be considered recent in seconds
   max_recent_bot_challenges: 2 # Maximum number of recent challenges that can be accepted from the same bot
@@ -339,20 +342,21 @@ matchmaking:
   challenge_increment:        # Increment in seconds of the challenge (to be chosen at random).
     - 1
 
-  opponent_min_rating: 1899   # Opponents rating should be above this value (600 is the minimum rating in lichess).
-  opponent_max_rating: 2800   # Opponents rating should be below this value (4000 is the maximum rating in lichess).
-  # opponent_rating_difference: 100 # The maximum difference in rating between the bot's rating and opponent's rating.
-  opponent_allow_tos_violation: false # Set to 'false' to prevent challenging bots that violated Lichess Terms of Service.
-  challenge_mode: "rated"    # Set it to the mode in which challenges are sent. Possible options are 'casual', 'rated' and 'random'.
-  challenge_filter: fine  # If a bot declines a challenge, do not issue a similar challenge to that bot. Possible options are 'none', 'coarse', and 'fine'.
+  opponent_min_rating: 2200             # Opponents rating should be above this value (600 is the minimum rating in lichess).
+  opponent_max_rating: 2900             # Opponents rating should be below this value (4000 is the maximum rating in lichess).
+  # opponent_rating_difference: 500     # The maximum difference in rating between the bot's rating and opponent's rating.
+  opponent_allow_tos_violation: false   # Set to 'false' to prevent challenging bots that violated Lichess Terms of Service.
+  challenge_mode: "rated"               # Set it to the mode in which challenges are sent. Possible options are 'casual', 'rated' and 'random'.
+  challenge_filter: fine                # If a bot declines a challenge, do not issue a similar challenge to that bot. Possible options are 'none', 'coarse', and 'fine'.
   include_challenge_block_list: true    # Do not challenge bots in the challenge: block_list in addition to the matchmaking block list.
-  
-  overrides:                        # List of overrides for the matchmaking specifications above. When a challenge is created, either the default specification above or one of the overrides will be randomly chosen.
-    classical:                      # Name of the override. Can be anything as long as each override has a unique name ("bullet_only_horde" and "easy_chess960" in these examples).
+  overrides:                            # List of overrides for the matchmaking specifications above. When a challenge is created, either the default specification above or one of the overrides will be randomly chosen.
+    classical:                          #   Name of the override. Can be anything as long as each override has a unique name ("bullet_only_horde" and "easy_chess960" in these examples).
       challenge_initial_time:
         - 1200                          # 20 + 8
       challenge_increment:
         - 8
+      opponent_min_rating: 2000         # Classical ratings are significatevely lower than bullet/blitz/rapid ones
+      opponent_max_rating: 2800
     rapid:                              # 5 + 5
       challenge_initial_time:
         - 300
