@@ -80,7 +80,7 @@ jobs:
 
     steps:
     - name: Download artifact from workflow run
-      uses: dawidd6/action-download-artifact@v4
+      uses: dawidd6/action-download-artifact@v6
       with:
         github_token: ${{secrets.GITHUB_TOKEN}}
         repo: lynx-chess/Lynx
