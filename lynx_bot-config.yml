@@ -375,6 +375,7 @@ challenge:                  # Incoming challenges
     - SVC_3259
     - PlayOnPhoneOnly
     - NikoglayKlei25
+    - ElNanonoeshumano33
     
   
   recent_bot_challenge_age: 60 # Maximum age of a bot challenge to be considered recent in seconds
