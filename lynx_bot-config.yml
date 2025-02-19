@@ -376,6 +376,9 @@ challenge:                  # Incoming challenges
     - PlayOnPhoneOnly
     - NikoglayKlei25
     - ElNanonoeshumano33
+    - HeckerBot
+    - Hecker-AI
+    - HeckerGPT
     
   
   recent_bot_challenge_age: 60 # Maximum age of a bot challenge to be considered recent in seconds
