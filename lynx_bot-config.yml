@@ -379,6 +379,7 @@ challenge:                  # Incoming challenges
     - HeckerBot
     - Hecker-AI
     - HeckerGPT
+    - AnIndianAnand
     
   
   recent_bot_challenge_age: 60 # Maximum age of a bot challenge to be considered recent in seconds
