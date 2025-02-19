@@ -356,6 +356,9 @@ challenge:                  # Incoming challenges
     - European_Chess_Bot
     - NikoglayKlei25
     - EliteAY17_AIChess
+    - XChessAY
+    - ChessBotAY_AI
+    - Nishythebot
     - Hufflewitzw
     - Kyreds_pet
     - Berserk12-X
@@ -365,6 +368,7 @@ challenge:                  # Incoming challenges
     - NewtSkamender
     - PETrSmirnovBOT
     - Timofei2506
+    - Vatsal_1123_bot
   
   recent_bot_challenge_age: 60 # Maximum age of a bot challenge to be considered recent in seconds
   max_recent_bot_challenges: 2 # Maximum number of recent challenges that can be accepted from the same bot
