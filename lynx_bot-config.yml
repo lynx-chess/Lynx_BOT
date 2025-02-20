@@ -380,6 +380,8 @@ challenge:                  # Incoming challenges
     - Hecker-AI
     - HeckerGPT
     - AnIndianAnand
+    - Stockfish161Pro
+    - Stockfish_13-1
     
   
   recent_bot_challenge_age: 60 # Maximum age of a bot challenge to be considered recent in seconds
