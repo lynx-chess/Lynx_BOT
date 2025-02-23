@@ -344,7 +344,7 @@ challenge:                  # Incoming challenges
     - BotAlex1N
     - Botalex2N
     - BotAlex3N
-    - BotAlexM
+    - BotalexM
     - Botalexnc
     - BotalexCandidateM
     - BotAlexMI
@@ -384,6 +384,9 @@ challenge:                  # Incoming challenges
     - Stockfish_13-1
     - Kyreds_pet
     - MironovKimChess_Bot
+    - FireBot_PL
+    - AlphaFish_Zero
+    - LiveChess-F1ghter
 
   recent_bot_challenge_age: 60 # Maximum age of a bot challenge to be considered recent in seconds
   max_recent_bot_challenges: 2 # Maximum number of recent challenges that can be accepted from the same bot
