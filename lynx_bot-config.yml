@@ -396,6 +396,12 @@ challenge:                  # Incoming challenges
     - doom-bot
     - MironovKimChess_Bot
     - MS-AI
+    - MaggiChess16
+    - Hien-Vinh_Bot2
+    - iplaychass123-bot
+    - Inteli5Bot
+    - ServerFish
+    - lol7241Bot
 
   recent_bot_challenge_age: 60 # Maximum age of a bot challenge to be considered recent in seconds
   max_recent_bot_challenges: 2 # Maximum number of recent challenges that can be accepted from the same bot
