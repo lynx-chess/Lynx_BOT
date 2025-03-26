@@ -390,7 +390,6 @@ challenge:                  # Incoming challenges
     - AlphaFish_Zero
     - LiveChess-F1ghter
     - Endogenetic-Bot
-    - Vatsal_1123_bot
     - SacrificialSage
     - Q-Learning
     - doom-bot
