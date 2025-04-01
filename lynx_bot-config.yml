@@ -390,6 +390,9 @@ challenge:                  # Incoming challenges
     - AlphaFish_Zero
     - LiveChess-F1ghter
     - Endogenetic-Bot
+    - Exogenetic-Bot
+    - AlwaysPlayMystery
+    - EdmonioBot
     - SacrificialSage
     - Q-Learning
     - doom-bot
