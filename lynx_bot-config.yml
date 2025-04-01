@@ -264,6 +264,7 @@ challenge:                  # Incoming challenges
     - StockFish16_2023
     - StockSergio
     - Stockfish-MEDIUM
+    - LeelaStrength
     - StockfishPower
     - THE_STRONGEST_BOT
     - TasmanRevenge
