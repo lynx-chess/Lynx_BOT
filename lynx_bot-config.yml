@@ -338,6 +338,9 @@ challenge:                  # Incoming challenges
     - thegamesknow
     - KunkkaPi
     - colinbot
+    - vrnts_colinbot
+    - worst_colinbot
+    - canary_colinbot
     - JustLeela
     - preunpatching-bot
     - Gotterpufer
