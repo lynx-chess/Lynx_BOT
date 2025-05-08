@@ -446,6 +446,11 @@ challenge:                  # Incoming challenges
     - Lili-ai
     - IFelmejordeajedrez
     - Lakshan_18
+    - death1234567-hell
+    - xJamalisBotx
+    - Konstantin_StepaBOT
+    - rain_bot
+    - BOTtdr08
 
   recent_bot_challenge_age: 60 # Maximum age of a bot challenge to be considered recent in seconds
   max_recent_bot_challenges: 2 # Maximum number of recent challenges that can be accepted from the same bot
