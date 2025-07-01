@@ -2,7 +2,7 @@ version: "2.3"
 services:
   Lynx_BOT:
     cpus: 4
-    mem_limit: "23g"
+    mem_limit: "20g"
     image: ghcr.io/lynx-chess/lynx-bot:latest
     volumes:
       - ./lynx_bot-config.yml:/lynx_bot/configtmp.yml
