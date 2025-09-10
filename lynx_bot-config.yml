@@ -127,9 +127,9 @@ challenge:                  # Incoming challenges
   variants:                 # Chess variants to accept (http://lichess.org/variant)
     - standard
     - fromPosition
+    - chess960
 #   - antichess
 #   - atomic
-#   - chess960
 #   - crazyhouse
 #   - horde
 #   - kingOfTheHill
@@ -199,6 +199,12 @@ matchmaking:
         - 180
       challenge_increment:
         - 2
+    frc-bullet:                         # 1 + 1 FRC
+      challenge_variant: "chess960"
+      challenge_initial_time:
+        - 60
+      challenge_increment:
+        - 1
     # bullet:   # Included in the main specification
     #   challenge_initial_time:
     #     - 60
