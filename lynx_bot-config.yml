@@ -170,9 +170,9 @@ matchmaking:
   challenge_variant: "standard" # If set to 'random', the bot will choose one variant from the variants enabled in 'challenge.variants'.
   challenge_timeout: 1        # Create a challenge after being idle for 'challenge_timeout' minutes. The minimum is 1 minute.
   challenge_initial_time:     # Initial time in seconds of the challenge (to be chosen at random).
-    - 60                                # 60 + 1
+    - 300                               #  5 + 5
   challenge_increment:        # Increment in seconds of the challenge (to be chosen at random).
-    - 1
+    - 5
 
   opponent_min_rating: 2200             # Opponents rating should be above this value (600 is the minimum rating in lichess).
   opponent_max_rating: 2900             # Opponents rating should be below this value (4000 is the maximum rating in lichess).
@@ -189,23 +189,25 @@ matchmaking:
         - 8
       opponent_min_rating: 2000         # Classical ratings are significatevely lower than bullet/blitz/rapid ones
       opponent_max_rating: 2800
-    rapid:                              # 5 + 5
-      challenge_initial_time:
-        - 300
-      challenge_increment:
-        - 5
-    blitz:                              # 3 + 2
+    blitz:                              # 3 + 2, standard and FRC
+      challenge_variant: "random"
       challenge_initial_time:
         - 180
       challenge_increment:
         - 2
-    frc-bullet:                         # 1 + 1 FRC
-      challenge_variant: "chess960"
-      challenge_initial_time:
-        - 60
-      challenge_increment:
-        - 1
-    # bullet:   # Included in the main specification
+    # rapid:                              # 5 + 5, Included in the main specification
+    #   challenge_initial_time:
+    #     - 300
+    #   challenge_increment:
+    #     - 5
+
+    # bullet:                             # 1 + 1, comented due to the new 100 games vs bots per day
+    #   challenge_initial_time:
+    #     - 60
+    #   challenge_increment:
+    #     - 1
+    # frc-bullet:                         # 1 + 1 FRC, comented due to the new 100 games vs bots per day
+    #   challenge_variant: "chess960"
     #   challenge_initial_time:
     #     - 60
     #   challenge_increment:
