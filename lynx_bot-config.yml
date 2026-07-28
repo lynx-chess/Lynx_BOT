@@ -149,6 +149,7 @@ challenge:                  # Incoming challenges
   #block_list:              # List of users from which the challenges are always declined
   online_block_list:        # The urls from which to retrieve a list of bot names that will not be challenged. The list should be a text file where each line contains the name of a blocked bot
     - https://raw.githubusercontent.com/xu-shawn/lichess-bots-blocklist/refs/heads/main/blocklist
+    - https://raw.githubusercontent.com/xu-shawn/lichess-bots-blocklist/refs/heads/main/sloplist
 
   recent_bot_challenge_age: 60 # Maximum age of a bot challenge to be considered recent in seconds
   max_recent_bot_challenges: 2 # Maximum number of recent challenges that can be accepted from the same bot
