@@ -113,7 +113,7 @@ pgn_file_grouping: "all"      # How to group games into files. Options are "game
                                    # "all" - every game is written to a single file named "{Bot name} games.pgn"
 
 challenge:                  # Incoming challenges
-  concurrency: 5            # Number of games to play simultaneously
+  concurrency: 2            # Number of games to play simultaneously
   sort_by: "first"          # Possible values: "best", "first"
   accept_bot: true          # Accepts challenges coming from other bots
   only_bot: false           # Accepts challenges by bots only
