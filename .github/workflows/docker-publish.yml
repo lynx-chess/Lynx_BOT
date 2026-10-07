@@ -7,12 +7,20 @@ on:
         description: 'Lynx release tag'
         required: false
         default: ''
-      run_number:
-        description: 'Lynx release.yml workflow run number. If not empty, artifact is downloaded from this workflow'
+      workflow:
+        description: 'release.yml or ci.yml'
         required: false
         default: ''
+      run_number:
+        description: 'Lynx workflow run number. If not empty, artifact is downloaded from this workflow'
+        required: false
+        default: ''
+      branch:
+        description: 'Lynx branch name. Only useful on ci.yml workflow'
+        required: false
+        default: 'main'
       version:
-        description: "Lynx version. Only useful when providing a 'run_number'"
+        description: "Lynx version. Only useful when providing a 'workflow' and 'run_number' input"
         required: false
         default: ''
 env:
@@ -24,7 +32,7 @@ env:
 
 jobs:
   download-lynx-artifact-from-release:
-    if: github.event.inputs.run_number == ''
+    if: github.event.inputs.workflow == ''
     runs-on: ubuntu-latest
 
     strategy:
@@ -70,7 +78,7 @@ jobs:
 
   download-lynx-artifact-from-workflow-run:
     name: Download Lynx artifacts from a Lynx release workflow run
-    if: github.event.inputs.run_number != ''
+    if: github.event.inputs.workflow != ''
     runs-on: ubuntu-latest
 
     strategy:
@@ -79,15 +87,28 @@ jobs:
       fail-fast: true
 
     steps:
-    - name: Download artifact from workflow run
+    - name: Download artifact release workflow run
+      if: github.event.inputs.workflow == 'release.yml'
       uses: dawidd6/action-download-artifact@v6
       with:
         github_token: ${{secrets.GITHUB_TOKEN}}
         repo: lynx-chess/Lynx
-        workflow: release.yml
+        workflow: ${{ github.event.inputs.workflow }}
         workflow_conclusion: success
         run_number: ${{ github.event.inputs.run_number }}
         name: Lynx-${{ env.LYNX_RELEASE_VERSION }}-${{ matrix.rid }}
+        path: artifacts/lynx-${{ matrix.rid }}
+
+    - name: Download artifact from ci workflow run
+      if: github.event.inputs.workflow == 'ci.yml'
+      uses: dawidd6/action-download-artifact@v6
+      with:
+        github_token: ${{secrets.GITHUB_TOKEN}}
+        repo: lynx-chess/Lynx
+        workflow: ${{ github.event.inputs.workflow }}
+        workflow_conclusion: success
+        run_number: ${{ github.event.inputs.run_number }}
+        name: Lynx-${{ github.event.inputs.branch }}-${{ github.event.inputs.run_number }}-${{ matrix.rid }}
         path: artifacts/lynx-${{ matrix.rid }}
 
     - name: Upload artifact
